@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Synapse Courses: Welcome</h1>
+
+  <button onclick="fetchData()">Fetch Data</button>
+  <div id="result"></div>
+  <script>
+    async function fetchData() {
+      try {
+        const response = await fetch('http://localhost:3000/');
+        console.log(response);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const dataArray = await response.json();
+
+        // Clear previous results
+        document.getElementById('result').innerHTML = '';
+
+        // Iterate over each object in the array
+        dataArray.forEach(item => {
+          const itemHtml = `<p>Title: ${item.title}</p><p>Body: ${item.body}</p>`;
+          document.getElementById('result').innerHTML += itemHtml;
+        });
+      } catch (error) {
+        console.error('Fetch error:', error);
+        document.getElementById('result').innerHTML = `<p>Error fetching data: ${error.message}</p>`;
+      }
+    }
+</script>
+</body>
+</html>
